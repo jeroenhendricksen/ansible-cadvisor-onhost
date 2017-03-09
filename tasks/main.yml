@@ -1,0 +1,46 @@
+---
+# file: tasks/main.yml
+
+- name: create cAdvisor group
+  group: name={{ cadvisor_group }}  state=present
+
+- name: create cAdvisor user
+  user:
+    name: "{{ cadvisor_user }}"
+    group: "{{ cadvisor_group }}"
+    createhome: no
+    shell: /sbin/nologin
+    comment: "cAdvisor User"
+    state: present
+
+- name: mkdir for general cases
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ cadvisor_user }}"
+    group: "{{ cadvisor_group }}"
+    mode: "u=rwx,g=rx,o="
+  with_items:
+    - "{{ cadvisor_install_path }}"
+    - "{{ cadvisor_config_path }}"
+    - "{{ cadvisor_log_path }}"
+
+- name: download cAdvisor
+  get_url:
+    url: "{{ cadvisor_download_url }}"
+    dest: "{{ cadvisor_install_path }}/cadvisor"
+    mode: 0755
+    
+- name: set permissions, owner and group
+  file:
+    path: "{{ cadvisor_install_path }}"
+    state: directory
+    owner: "{{ cadvisor_user }}"
+    group: "{{ cadvisor_group }}"
+    mode: "go-w"
+    recurse: yes
+  changed_when: false
+  
+- name: copy systemd config
+  template: src="../templates/cadvisor.service.j2"  dest="/lib/systemd/system/cadvisor.service"
+  notify: restart cadvisor

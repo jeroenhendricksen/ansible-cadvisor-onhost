@@ -1,0 +1,13 @@
+[Unit]
+Description=cAdvisor - Docker container metrics.
+Documentation=https://github.com/dometec/ansible-cadvisor-onhost
+After=network.target
+
+[Service]
+Type=simple
+User={{ cadvisor_user }}
+Group={{ cadvisor_group }}
+ExecStart={{ cadvisor_install_path }}/cadvisor --port={{ cadvisor_port }} --log_dir={{ cadvisor_log_path }}
+
+[Install]
+WantedBy=multi-user.target
