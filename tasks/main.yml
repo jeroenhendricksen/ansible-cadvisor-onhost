@@ -30,6 +30,7 @@
     url: "{{ cadvisor_download_url }}"
     dest: "{{ cadvisor_install_path }}/cadvisor"
     mode: 0755
+    force: yes
     
 - name: set permissions, owner and group
   file:
