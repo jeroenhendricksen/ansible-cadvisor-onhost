@@ -42,5 +42,10 @@
   changed_when: false
   
 - name: copy systemd config
-  template: src="../templates/cadvisor.service.j2"  dest="/lib/systemd/system/cadvisor.service"
-  notify: restart cadvisor
+  template: src="../templates/cadvisor.service.j2" dest="/lib/systemd/system/cadvisor.service"
+
+- name: reload systemd config
+  shell: systemctl enable cadvisor
+
+- name: systemctl restart cadvisor
+  shell: systemctl restart cadvisor
