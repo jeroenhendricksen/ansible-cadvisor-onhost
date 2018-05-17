@@ -12,6 +12,7 @@
     shell: /sbin/nologin
     comment: "cAdvisor User"
     state: present
+  when: cadvisor_user != "root"
 
 - name: mkdir for general cases
   file:
