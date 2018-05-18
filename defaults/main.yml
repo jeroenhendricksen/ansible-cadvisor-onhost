@@ -9,4 +9,4 @@ cadvisor_download_url: https://github.com/google/cadvisor/releases/download/{{ c
 cadvisor_install_path:         /opt/cadvisor
 cadvisor_config_path:          /etc/cadvisor
 cadvisor_log_path:             /var/log/cadvisor
-
+cadvisor_options:              --max_procs=1

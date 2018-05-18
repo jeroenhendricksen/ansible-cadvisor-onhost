@@ -7,7 +7,7 @@ After=network.target
 Type=simple
 User={{ cadvisor_user }}
 Group={{ cadvisor_group }}
-ExecStart={{ cadvisor_install_path }}/cadvisor --port={{ cadvisor_port }} --log_dir={{ cadvisor_log_path }}
+ExecStart={{ cadvisor_install_path }}/cadvisor --port={{ cadvisor_port }} --log_dir={{ cadvisor_log_path }} {{ cadvisor_options }}
 
 [Install]
 WantedBy=multi-user.target
