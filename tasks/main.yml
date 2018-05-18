@@ -1,8 +1,11 @@
 ---
 # file: tasks/main.yml
 
+- name: stop cadvisor
+  service: name=cadvisor state=stopped enabled=true
+
 - name: create cAdvisor group
-  group: name={{ cadvisor_group }}  state=present
+  group: name={{ cadvisor_group }} state=present
 
 - name: create cAdvisor user
   user:
@@ -43,6 +46,11 @@
     recurse: yes
   changed_when: false
   
+- name: remove systemd config (so it get's recreated)
+  file:
+    path: /lib/systemd/system/cadvisor.service
+    state: absent
+
 - name: copy systemd config
   template: src="../templates/cadvisor.service.j2" dest="/lib/systemd/system/cadvisor.service"
 
