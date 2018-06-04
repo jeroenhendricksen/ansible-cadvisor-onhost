@@ -3,6 +3,7 @@
 
 - name: stop cadvisor
   service: name=cadvisor state=stopped enabled=true
+  ignore_errors: True
 
 - name: create cAdvisor group
   group: name={{ cadvisor_group }} state=present
